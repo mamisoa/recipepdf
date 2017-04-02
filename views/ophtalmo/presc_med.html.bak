@@ -1,0 +1,98 @@
+{{block head}}
+<script src="{{=URL('static','pdfmake/pdfmake.min.js')}}"></script>
+<script src="{{=URL('static','pdfmake/vfs_fonts.js')}}"></script>
+<script src="{{=URL('static','jsbarcode/JsBarcode.itf.min.js')}}"></script>
+{{end}}
+<h1>This is the ophtalmo/presc_med.html template</h1>
+<canvas id="itf"></canvas>
+{{=BEAUTIFY(response._vars)}}
+<script type="text/javascript">
+    JsBarcode("#itf", "{{=doctorinami}}", {
+      format: "ITF",
+      displayValue: true,
+      text: "{{=doctorinami_display}}"
+    });
+    var canvas = document.getElementById("itf");
+    var dataURL = canvas.toDataURL();
+    // console.log(dataURL);
+    var name = 'Patient',
+        firstname = 'Test',
+        dob = '01/01/1975',
+        doctorfirst = 'Raberahona'
+        doctorlast = 'ANDRIANTAFIKA'
+        doctorname = 'Dr. ANDRIANTAFIKA R.M',
+        doctorinami = '1-89506-32-370',
+        doctoremail = 'info@ophtalmologiste.be',
+        centername = 'Centre Médical Bruxelles-Schuman\n66 Av. de Cortenbergh\n1000 - Bruxelles, Belgique',
+        centerphone = '+32(0)2/256.90.83',
+        centerwww = 'www.ophtalmologiste.be',
+        prescdate = "01/01/2017";
+    var dd = {
+        content: [
+            { canvas: [{type: 'rect',x: 0 ,y: 0, w: 1, h: 80, color: 'white'}] },
+            {
+                table: {
+                    widths: [ 100, 25, 150 ],
+                    body: [
+                            [{image: dataURL, width: 100, alignment: 'center', colSpan:2, border: [false, true , true, true] },{},
+                             { border: [true, true , false, true],
+                                text: [{ text: 'Nom et prénom du prescripteur\n\n\n\n\n', fontSize: 6, alignment: 'center' },
+                                       {
+                                           margin: [15,0,0,0],
+                                           text: doctorlast + ' ' +doctorfirst, fontSize: 8, bold: true, alignment: 'left' }
+                                       ]
+                             }
+                            ],
+                            [{ colSpan: 3, border: [false, true , false, true],
+                                text: [{ text: 'A REMPLIR PAR LE PRESCRIPTEUR:\n', fontSize: 8, margin: [0,2,0,2] },
+                                        { text: 'nom et prénom\ndu bénéficiaire:       ', fontSize: 6},
+                                        { text: name + ' ' +firstname, fontSize: 8, bold: true }
+                                       ]
+                             },
+                             {},{}], // end row
+                            [
+                                {
+                                border: [false, true , true, true],
+                                stack: [{text: 'Réservé à la vignette du conditionnement', fontSize:6 },{ canvas: [{type: 'rect',x: 0 ,y: 12, w: 1, h: 280, color: 'white'}] }]
+                                },
+                                 {text: 'R/', colSpan: 2 , border: [false, true , false, true]},
+                                 {}
+                            ], // end row
+                            [
+                                {  
+                                    colSpan:2, rowSpan:2, border: [false, true , true, true], alignment: 'center', margin: [0,2,0,10],
+                                    stack: [
+										{ text: 'Cachet du prescripteur\n\n', fontSize: 6 },
+										{ text: doctorname+'\n', fontSize: 8, bold: true },
+                                        {
+                                            fontSize: 6,
+                                            text: [{ text: centername+'\n' },{text: 'Tél: '+centerphone+'\n'}, {text: centerwww+'\n', color: 'blue', decoration: 'underline', italics: 'true'}]
+                                        }
+                                      ]
+                                 },
+                                 {},
+                                 {
+                                   margin: [0,2,0,10], border: [true, true , false, true],
+                                   stack: [
+                                     {text: 'Date et signature du prescripteur', alignment: 'center', fontSize: 6, margin: [0,2,0,2]},
+                                     {text: prescdate, alignment: 'center', fontSize:8, bold: true}
+                                     ]
+                                }
+                            ], // end row
+                            [{},{},
+                             {
+                                   margin: [0,2,0,10], border: [true, true , false, true],
+                                   stack: [
+                                     {text: 'Délivrable à partir de la date précitée ou à partir du\n', alignment: 'center', fontSize: 6, margin: [0,2,0,2]},
+                                     {text: prescdate, alignment: 'center', fontSize:8, bold: true}
+                                     ]
+                                }
+                            ], // end row
+                            [{text: 'PRESCRIPTION DE MEDICAMENTS', colSpan:3, alignment: 'center', fontSize: 8, border: [false, true , false, false]},{},{}]
+                        ]
+				}
+			}
+        ] // content end
+    };
+    pdfMake.createPdf(dd).open('prescription_medicaments');
+</script>

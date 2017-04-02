@@ -1,0 +1,31 @@
+pdf_element.pdf_template_id, pdf_element.name, pdf_element.type, pdf_element.x1, pdf_element.y1, pdf_element.x2, pdf_element.y2, pdf_element.font, pdf_element.size, pdf_element.bold, pdf_element.italic, pdf_element.underline, pdf_element.foreground, pdf_element.background, pdf_element.align, pdf_element.text, pdf_element.priority
+4,TABO,T,69.70,92.50,142.90,99.40,Arial,12,False,False,False,0,16777215,L,'TABO',0
+4,annexe15,T,82.20,29.20,112.80,36.20,Arial,10,False,False,False,0,16777215,L,'Annexe 15',0
+4,axe_left,I,146.60,77.20,176.60,107.20,Arial,12,False,False,False,0,16777215,L,,0
+4,axe_right,I,35.00,76.80,65.00,106.80,Arial,12,False,False,False,0,16777215,L,,0
+4,bis,T,112.90,29.30,120.80,35.80,Arial,10,False,False,False,0,16777215,L,bis,0
+4,company_name_adress,T,95.30,20.70,195.30,25.70,Arial,8,False,True,False,0,16777215,L,'company_adress',0
+4,company_name_l1,T,95.20,0.60,195.20,6.60,Arial,10,False,False,False,0,16777215,L,'company_name1',0
+4,company_name_l2,T,95.30,6.10,195.30,12.10,Arial,10,False,False,False,0,16777215,L,'company_name2',0
+4,company_name_www,T,95.30,16.20,195.30,21.20,Arial,8,False,False,True,0,16777215,L,'company_www',0
+4,company_phone,T,95.30,11.20,195.30,16.90,Arial,8,False,True,False,0,16777215,L,'company_phone',0
+4,dob,T,20.50,61.10,50.50,66.10,Arial,10,True,False,False,0,16777215,L,'DATE DE NAISSANCE :',0
+4,dob_field,T,52.00,61.20,102.00,66.20,Arial,10,True,False,False,0,16777215,L,dob,0
+4,firstname_field,T,136.40,55.80,206.40,60.80,Arial,10,True,False,False,0,16777215,L,'Pr\xc3\xa9nom',0
+4,ligne_epaisse,T,6.30,61.50,206.90,73.00,Arial,10,True,False,False,0,16777215,L,'______________________________________________________________________________________',-1
+4,ligne_fine,T,5.70,34.70,206.30,46.20,Arial,10,False,False,False,0,16777215,L,'______________________________________________________________________________________',-1
+4,ligne_fine_copy,T,5.90,44.90,206.50,56.40,Arial,10,False,False,False,0,16777215,L,'______________________________________________________________________________________',-1
+4,logo,I,67.20,2.80,90.80,24.20,Arial,12,False,False,False,0,16777215,L,,0
+4,name_field,T,31.20,55.80,101.20,60.80,Arial,10,True,False,False,0,16777215,L,'Nom',0
+4,nom,T,20.60,55.20,27.60,60.20,Arial,10,True,False,False,0,16777215,L,'NOM :',0
+4,prenom_copy,T,120.90,55.50,127.90,60.50,Arial,10,True,False,False,0,16777215,L,'PRENOM :',0
+4,prescription_lunettes,T,19.30,35.50,193.20,40.50,Arial,10,False,False,False,0,16777215,C,'PRESCRIPTION MEDICALE POUR VERRES DE LUNETTES ET/OU ACCESSOIRES',0
+4,tabo_img,I,84.70,75.30,129.70,90.30,Arial,12,False,False,False,0,16777215,L,,0
+4,vignette,T,19.80,44.80,114.80,49.80,Arial,12,False,False,False,0,16777215,L,'VIGNETTE O.A',0
+4,right,T,22,112,35,117,Arial,10,False,False,False,0,65535,L,'RIGHT',0
+4,sph_r_box,B,35,112,48,117,Arial,10,False,False,False,16777215,65535,L,,0
+4,cyl_r_box,B,48,112,61,117,Arial,10,False,False,False,16777215,65535,L,,0
+4,axis_r_box,B,61,112,74,117,Arial,10,False,False,False,16777215,65535,L,,0
+4,prism_r_box,B,74,112,87,117,Arial,10,False,False,False,16777215,65535,L,,0
+4,base_r_box,B,87,112,100,117,Arial,10,False,False,False,16777215,65535,L,,0
+
