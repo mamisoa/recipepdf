@@ -145,6 +145,22 @@ def presc_med():
     doctorinami_display = XML('1.89506.32.370')
     return locals()
 
+def cee_pdf():
+    ce_img_path = '/home/www-data/web2py/applications'+URL('static','images/entete_cee.png')
+    ce_img64 = embed64(filename= ce_img_path, file=ce_img_path, data=None, extension='image/png')
+    prescriber_lastname="SAN JOSE AGUDO"
+    prescriber_firstname="Maria Ruth"
+    patient_lastname="CASTINEIRA VIZOSO"
+    patient_firstname="Rocio"
+    patient_dob="27/03/1976"
+    exam_date="03/07/2019"
+    eyemd_fn="Mamisoa"
+    eyemd_ln="ANDRIANTAFIKA"
+    patient_id="154317"
+    bc_num=XML('NDPC---338810')
+    ce_id = XML('154317')
+    return locals()
+
 def test_template():
     from gluon.contrib.pyfpdf import Template
     import os.path

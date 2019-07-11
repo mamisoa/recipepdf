@@ -59,7 +59,7 @@
                                  {}
                             ], // end row
                             [
-                                {  
+                                {
                                     colSpan:2, rowSpan:2, border: [false, true , true, true], alignment: 'center', margin: [0,2,0,10],
                                     stack: [
 										{ text: 'Cachet du prescripteur\n\n', fontSize: 6 },
@@ -94,5 +94,5 @@
 			}
         ] // content end
     };
-    pdfMake.createPdf(dd).open('prescription_medicaments');
+    pdfMake.createPdf(dd).open({}, window);
 </script>

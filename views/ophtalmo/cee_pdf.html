@@ -1,0 +1,451 @@
+{{block head}}
+<script src="{{=URL('static','pdfmake/pdfmake.min.js')}}"></script>
+<script src="{{=URL('static','pdfmake/vfs_fonts.js')}}"></script>
+<script src="{{=URL('static','jsbarcode/JsBarcode.code39.min.js')}}"></script>
+{{end}}
+<h1>This is the ophtalmo/ce_pdf.html template</h1>
+{{=IMG(_src=URL('static','images/entete_cee.png'))}}
+<canvas id="code39"></canvas>
+<canvas id="rotated-barcode"></canvas>
+
+<script type="text/javascript">
+JsBarcode("#code39", "{{=bc_num}}", {
+  format: "CODE39",
+  displayValue: true,
+  height: 60,
+  text: "*{{=bc_num}}*"
+  });
+var canvas39 = document.getElementById("code39");
+var dataURL39 = canvas39.toDataURL();
+
+var image = new Image();
+image.src = dataURL39;
+
+image.onload = function() {
+
+  var rotatedBarcodeCanvas = document.getElementById("rotated-barcode");
+  var rotatedBarcodeCanvasContext = rotatedBarcodeCanvas.getContext("2d");
+
+  rotatedBarcodeCanvas.width = image.height;
+  rotatedBarcodeCanvas.height = image.width;
+
+  // Rotate
+  rotatedBarcodeCanvasContext.translate(image.height, 0);
+  rotatedBarcodeCanvasContext.rotate(90 * Math.PI/180);
+  rotatedBarcodeCanvasContext.drawImage(image, 0, 0)
+
+  var dataURL39r = rotatedBarcodeCanvas.toDataURL();
+  };
+
+
+var ce_img64 = '{{=ce_img64}}'
+var dd = {
+  pageSize: 'A4',
+  pageMargins: [ 50, 25, 40, 10 ], // margin: [left, top, right, bottom]
+  //header: [
+  //
+  //  ], // ends header
+  content: [
+  {
+   // style: 'header',
+   margin: [15, 30, 0, 8],
+   layout: 'noBorders',
+   table: {
+     //margin: [250, 30, 0, 15],
+     widths: [102,'*'],
+     body: [
+      [
+        { image: ce_img64, width: 70 }, // end column 1
+        {
+          text: [
+            { text: 'Commission européenne\n', fontSize: 11, bold: true },
+            { text: 'Direction-générale\nRessources humaines et sécurité\nDirection HR.D - Santé & bien-être - Conditions de travail\n', fontSize: 8 },
+            { text: 'Service Médical', fontSize: 8, bold: true }
+          ]
+        } // end column 2
+      ]
+      ]
+     }
+   },
+   {
+      margin: [0,5,0,18],
+      text: "Résultats à envoyer au Service Médical - Avenue d'Auderghem 19 - 1049 Bruxelles - BREY 06/339", color: 'red', fontSize: 9, decoration: 'underline', alignment: 'center', bold: true
+    },
+    {
+      margin: [0,5,0,3],
+      text: 'EXAMEN OPHTALMOLOGIQUE\n', alignment: 'center', fontSize: 12, bold: true
+    },
+    {
+      margin: [0,0,0,18],
+      text: "(prescrit par le Dr {{=prescriber_firstname}} {{=prescriber_lastname}})", alignment: 'center', fontSize: 8, bold: true
+    },
+    {
+      margin: [0,0,0,5],
+      layout: 'noBorders',
+      table: {
+        widths: ['*','*'],
+        heights: [20,20],
+        body: [
+          [
+            { text: "NOM: {{=patient_lastname}}", fontSize: 9 }, { text: "PRENOMS: {{=patient_firstname}}", fontSize: 9}
+          ],
+          [
+            { text: "DATE DE NAISSANCE: {{=patient_dob}}", fontSize: 9 }, { text: "N° DE PERSONNEL: {{=patient_id}}", fontSize: 9}
+          ]
+        ]
+      }
+    }, // end ID
+    {
+      canvas: [{ type: 'line', x1: 0, y1: 5, x2: 480, y2: 5, lineWidth: 0.5 },
+               {type: 'rect',x: 0,y: 12, w: 480, h: 1, color: 'white'} // spacer
+              ]
+    },
+    {
+      margin: [0,0,0,5],
+      layout: 'noBorders',
+      table: {
+        widths: [80,380],
+        heights: [15,18],
+        body: [
+          [
+            { text: "Antécédents", fontSize: 9 }, { rowSpan: 2, text: "", fontSize: 9}
+          ],
+          [
+            { text: "ophtalmologiques", fontSize: 9}, ''
+          ]
+        ]
+      }
+    },
+    {
+      canvas: [{ type: 'line', x1: 0, y1: 5, x2: 480, y2: 5, lineWidth: 0.5 },
+               {type: 'rect',x: 0,y: 12, w: 480, h: 1, color: 'white'} // spacer
+              ]
+    },
+    {
+      margin: [0,0,0,5],
+      layout: 'noBorders',
+      table: {
+        widths: [80,380],
+        heights: [15,18],
+        body: [
+          [
+            { text: "Troubles oculaires", fontSize: 9 }, { rowSpan: 2, text: "", fontSize: 9}
+          ],
+          [
+            { text: "subjectifs actuels", fontSize: 9}, ''
+          ]
+        ]
+      }
+    },
+    {
+      style: 'table1',
+      table: {
+        widths: [115,115,115,115],
+        heights:[18,18,18,18,18,18,18,18,18,18,18],
+        body: [
+          [{ text: "col1", colSpan: 2, border: [false, false, true, true]}, '', { text: "O.D.", alignment: 'center', margin:[0,4,0,0]}, { text: "O.G.",alignment: 'center', margin:[0,4,0,0]}],
+          [{ text: "Acuité visuelle centrale de loin", rowSpan: 4}, { text: "sans verres"}, { text: "col1"}, { text: "col1"}],
+          ['', { text: "avec verre"}, { text: "col1"}, { text: "col1"}],
+          ['', { text: "correction"}, { text: "col1"}, { text: "col1"}],
+          ['', { text: "réfraction"}, { text: "col1"}, { text: "col1"}],
+          [{ text: "Minimum lisible test utilisé", rowSpan: 4}, { text: "sans verres"}, { text: "col1"}, { text: "col1"}],
+          ['', { text: "et/ou"}, { text: "col1", colSpan: 2}, { text: "col1"}],
+          ['', { text: "avec verre"}, { text: "col1", colSpan: 2}, ''],
+          ['', { text: "correction"}, { text: "col1"}, { text: "col1"}],
+          [{ text: "Kératométrie", colSpan: 2}, '', { text: "col1"}, { text: "col1"}],
+          [{ text: "Amplitude accommodative", colSpan: 2}, '', { text: "col1"}, { text: "col1"}]
+        ]
+      }
+    },
+    {
+      margin: [0,12,0,8],
+      layout: 'noBorders',
+      table: {
+        widths: [140,338],
+        heights: [15,15],
+        body: [
+          [
+            { text: "Vision binoculaire et recherche\n\nde phénomènes de neutralisation", fontSize: 9, rowSpan:2 }, { rowSpan: 2, text: "", fontSize: 9}
+          ],
+          [
+            '', ''
+          ]
+        ]
+      }
+    },
+    {
+     text: 'Test(s) utilisé(s)', alignment: 'center', bold: true
+     },
+     {
+       canvas: [{ type: 'line', x1: 0, y1: 5, x2: 480, y2: 5, lineWidth: 0.5 },
+                {type: 'rect',x: 0,y: 25, w: 480, h: 1, color: 'white'} // spacer
+               ]
+     },
+     {
+      style: 'table1',
+      layout: 'noBorders',
+      table: {
+        widths: [115,40,298],
+        heights: [15,15,15],
+        body: [
+          [{text: 'Equilibre musculaire\nen position primaire', rowSpan:3}, {text:'de loin:'}, {text:'col30'}],
+          ['', {text:'à 1m:'}, {text:'col31'}],
+          ['', {text:'à 33cm:'}, {text:'col31'}]
+        ]
+      }
+     },
+     {
+      margin: [0,10,0,0],
+      image: dataURL39, width: 150, alignment: 'center',
+      pageBreak: 'after'
+     },
+     {
+       margin: [0,5,0,4],
+       text: 'EXAMEN OPHTALMOLOGIQUE APPROFONDI', alignment: 'center', fontSize: 12, bold: true
+     },
+     {
+      margin: [0,0,0,3],
+      text: '(suite)', alignment: 'center'
+     },
+    {
+       margin: [0,0,0,18],
+       text: "(prescrit par le Dr {{=prescriber_firstname}} {{=prescriber_lastname}})", alignment: 'center', fontSize: 8, bold: true
+     },
+    {
+       canvas: [{ type: 'line', x1: 0, y1: 5, x2: 480, y2: 5, lineWidth: 0.5 },
+                {type: 'rect',x: 0,y: 10, w: 480, h: 1, color: 'white'} // spacer
+               ]
+     },
+     {
+       margin: [0,0,0,5],
+       layout: 'noBorders',
+       table: {
+         widths: [115,357],
+         heights: [12,12],
+         body: [
+           [
+             { text: "Motilité oculaire extrinsèque", fontSize: 9, rowSpan:2 }, { rowSpan: 2, text: "", fontSize: 9}
+           ],
+           [
+            '', ''
+           ]
+         ]
+       }
+     },
+     {
+        canvas: [{ type: 'line', x1: 0, y1: 5, x2: 480, y2: 5, lineWidth: 0.5 },
+                 {type: 'rect',x: 0,y: 10, w: 480, h: 1, color: 'white'} // spacer
+                ]
+      },
+      {
+        margin: [0,0,0,5],
+        layout: 'noBorders',
+        table: {
+          widths: [115,357],
+          heights: [12,12],
+          body: [
+            [
+              { text: "Motilité oculaire intrinsèque", fontSize: 9, rowSpan:2 }, { rowSpan: 2, text: "", fontSize: 9}
+            ],
+            [
+             '', ''
+            ]
+          ]
+        }
+      },
+      {
+         canvas: [{ type: 'line', x1: 0, y1: 5, x2: 480, y2: 5, lineWidth: 0.5 },
+                  {type: 'rect',x: 0,y: 10, w: 480, h: 1, color: 'white'} // spacer
+                 ]
+       },
+       {
+         margin: [0,0,0,5],
+         layout: 'noBorders',
+         table: {
+           widths: [140,166,166],
+           heights: [12,12],
+           body: [
+             [
+               { text: "Examen biomicroscopique", fontSize: 9, rowSpan:2 },  { rowSpan: 2, text: "OD", fontSize: 9}, { rowSpan: 2, text: "OG", fontSize: 9}
+             ],
+             [
+              '', '',''
+             ]
+           ]
+         }
+       },
+       {
+          canvas: [{ type: 'line', x1: 0, y1: 5, x2: 480, y2: 5, lineWidth: 0.5 },
+                   {type: 'rect',x: 0,y: 10, w: 480, h: 1, color: 'white'} // spacer
+                  ]
+        },
+        {
+          margin: [0,0,0,5],
+          layout: 'noBorders',
+          table: {
+            widths: [140,166,166],
+            heights: [12,12],
+            body: [
+              [
+                { text: "Pression intraoculaire (>40ans)", fontSize: 9, rowSpan:2 }, { rowSpan: 2, text: "OD", fontSize: 9}, { rowSpan: 2, text: "OG", fontSize: 9}
+              ],
+              [
+               '', '',''
+              ]
+            ]
+          }
+        },
+        {
+           canvas: [{ type: 'line', x1: 0, y1: 5, x2: 480, y2: 5, lineWidth: 0.5 },
+                    {type: 'rect',x: 0,y: 10, w: 480, h: 1, color: 'white'} // spacer
+                   ]
+         },
+         {
+           margin: [0,0,0,5],
+           layout: 'noBorders',
+           table: {
+             widths: [140,166,166],
+             heights: [12,12],
+             body: [
+               [
+                 { text: "Fonds d'yeux", fontSize: 9, rowSpan:2 }, { rowSpan: 2, text: "OD", fontSize: 9}, { rowSpan: 2, text: "OG", fontSize: 9}
+               ],
+               [
+                '', '', ''
+               ]
+             ]
+           }
+         },
+         {
+            canvas: [{ type: 'line', x1: 0, y1: 5, x2: 480, y2: 5, lineWidth: 0.5 },
+                     {type: 'rect',x: 0,y: 10, w: 480, h: 1, color: 'white'} // spacer
+                    ]
+          },
+          {
+            margin: [0,0,0,5],
+            layout: 'noBorders',
+            table: {
+              widths: [140,166,166],
+              heights: [12,12],
+              body: [
+                [
+                  { text: "(Champ visuels)", fontSize: 9, rowSpan:2 }, { rowSpan: 2, text: "OD", fontSize: 9}, { rowSpan: 2, text: "OG", fontSize: 9}
+                ],
+                [
+                 '', '', ''
+                ]
+              ]
+            }
+          },
+          {
+             canvas: [{ type: 'line', x1: 0, y1: 5, x2: 480, y2: 5, lineWidth: 0.5 },
+                      {type: 'rect',x: 0,y: 10, w: 480, h: 1, color: 'white'} // spacer
+                     ]
+           },
+           {
+             margin: [0,0,0,5],
+             layout: 'noBorders',
+             table: {
+               widths: [140,166,166],
+               heights: [12,12],
+               body: [
+                 [
+                   { text: "Perception des couleurs\n\nTest utilisé", fontSize: 9, rowSpan:2 }, { rowSpan: 2, text: "OD", fontSize: 9}, { rowSpan: 2, text: "OG", fontSize: 9}
+                 ],
+                 [
+                  '', '', ''
+                 ]
+               ]
+             }
+           },
+           {
+              canvas: [{ type: 'line', x1: 0, y1: 5, x2: 480, y2: 5, lineWidth: 0.5 },
+                       {type: 'rect',x: 0,y: 10, w: 480, h: 1, color: 'white'} // spacer
+                      ]
+            },
+            {
+              margin: [0,0,0,5],
+              layout: 'noBorders',
+              table: {
+                widths: [140,166,166],
+                heights: [12,30],
+                body: [
+                  [
+                    { text: "Conclusions générales", fontSize: 9, rowSpan:2 }, { rowSpan: 2, text: "OD", fontSize: 9}, { rowSpan: 2, text: "OG", fontSize: 9}
+                  ],
+                  [
+                   '', '', ''
+                  ]
+                ]
+              }
+            },
+            {
+               canvas: [{ type: 'line', x1: 0, y1: 5, x2: 480, y2: 5, lineWidth: 0.5 },
+                        {type: 'rect',x: 0,y: 10, w: 480, h: 1, color: 'white'} // spacer
+                       ]
+             },
+            {
+              margin: [0,0,0,5],
+              layout: 'noBorders',
+              table: {
+                widths: [140,332],
+                heights: [12,30],
+                body: [
+                  [
+                    { text: "Aptitude visuelle au travail à l'écran", fontSize: 9, rowSpan:2 }, { rowSpan: 2, text: "col2", fontSize: 9},
+                  ],
+                  [
+                   '', ''
+                  ]
+                ]
+              }
+            },
+            {
+               canvas: [{ type: 'line', x1: 0, y1: 5, x2: 480, y2: 5, lineWidth: 0.5 },
+                        {type: 'rect',x: 0,y: 10, w: 480, h: 1, color: 'white'} // spacer
+                       ]
+             },
+            {
+              style: "table1",
+              layout: 'noBorders',
+              margin: [150,30,0,5],
+              table: {
+                heights: [12,30],
+                widths: [150,150],
+                body: [
+                  [ {text: 'Date'},{text: 'Nom et signature'}],
+                  [ {text: "{{=exam_date}}", margin:[0,4,0,0] }, {text: "Dr. {{=eyemd_fn}} {{=eyemd_ln}}", margin:[0,4,0,0] }]
+                ]
+              }
+            },
+            {
+              margin: [0,50,0,10],
+              layout: 'noBorders',
+              table: {
+                //widths: ['*','*'],
+                // heights: [20,20],
+                body: [
+                  [
+                    { text: "NOM: {{=patient_lastname}}", fontSize: 9 }, { text: "PRENOMS: {{=patient_firstname}}", fontSize: 9}
+                  ],
+                  [
+                    { text: "DATE DE NAISSANCE: {{=patient_dob}}", fontSize: 9 }, { text: "N° DE PERSONNEL: {{=patient_id}}", fontSize: 9}
+                  ]
+                ]
+              }
+            },
+            {
+              image: dataURL39, width: 150, alignment: 'center'
+            }
+ ],
+ styles: {
+   table1: {
+       fontSize: 9,
+       margin: [0,0,0,0]
+   }
+ }
+}; // ends dd
+
+pdfMake.createPdf(dd).open({}, window);
+
+</script>
